@@ -1,0 +1,17 @@
+{
+  "search.useIgnoreFiles": false,
+  "search.exclude": {
+    "package-lock.json": true,
+    "**/node_modules": true,
+    "**/bower_components": true,
+    "**/*.code-search": true,
+    ".angular": true
+  },
+  "[html]": {
+    // pois o prettier não faz isso bem
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "html.format.wrapLineLength": 80,
+  // quebra a linha de uma forma inteligente
+  "html.format.wrapAttributes": "auto"
+}
