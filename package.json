@@ -1,9 +1,12 @@
 {
   "scripts": {
+    "ng": "ng",
     "start": "webpack serve --open",
     "build": "webpack --config webpack.config.js",
     "start-angular": "ng serve",
-    "build-angular": "ng build"
+    "build-angular": "ng build",
+    "start-angular-default": "ng serve default",
+    "build-angular-default": "ng build default"
   },
   "dependencies": {
     "@angular/common": "^18.0.2",
