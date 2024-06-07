@@ -2,7 +2,6 @@ import React from 'react';
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { createRoot } from 'react-dom/client';
 import { App } from './app';
-import '../libs/css/index.css';
 
 @Component({
   selector: 'app-root',
@@ -20,6 +19,9 @@ export class AppComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     const root = createRoot(this.reactRootRef.nativeElement);
+
+    // I need this log and I don't know why
+    console.log(React);
 
     root.render(<App />);
   }
