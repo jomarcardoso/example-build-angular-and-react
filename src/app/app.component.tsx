@@ -5,13 +5,7 @@ import { App } from './app';
 
 @Component({
   selector: 'app-root',
-  template: `<h1>Jomar says welcome!</h1>
-    <p>Here a paragraph rendered by Angular.</p>
-
-    <app-accordion title="an angular accordion"> I'm happy </app-accordion>
-
-    <div #reactRoot></div> `,
-  // styleUrl: '../libs/css/index.css',
+  templateUrl: './app.html',
 })
 export class AppComponent implements AfterViewInit {
   @ViewChild('reactRoot')
