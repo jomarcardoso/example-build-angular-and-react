@@ -9,9 +9,13 @@ import { App } from './app';
 })
 export class AppComponent implements AfterViewInit {
   @ViewChild('reactRoot')
-  reactRootRef: ElementRef;
+  reactRootRef?: ElementRef;
 
   ngAfterViewInit() {
+    if (!this.reactRootRef) {
+      return;
+    }
+
     const root = createRoot(this.reactRootRef.nativeElement);
 
     // I need this log and I don't know why

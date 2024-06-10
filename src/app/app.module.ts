@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
-import { AccordionComponent } from '../../libs/angular/src/components/accordion';
+import { AccordionComponent } from '../libs/angular/src/public-api';
 
 @NgModule({
   declarations: [AppComponent],

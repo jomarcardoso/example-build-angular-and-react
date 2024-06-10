@@ -82,7 +82,87 @@ Further you can improve this build, but I am going to stop here to show you anot
 
 ## Generate the complete build
 
+- `$ npx -p @angular/cli ng new example-build-angular-and-react-2 --style=scss`
 - `npm run ng generate library angular`
+
+At here you can build Angular and React in your application, but you can not load CSS in the components and use CSS modules. In my opinion and the very css-loader recomendation, is not good to load the CSS by the scripts, so I see the next step optional.
+
+- `npm i --save-dev @angular-builders/custom-webpack`
+- change the builder `@angular-devkit/build-angular:application` to `@angular-builders/custom-webpack:browser`
+- change the builder `@angular-devkit/build-angular:dev-server` to `@angular-builders/custom-webpack:dev-server`
+- rename `browser` to `main`
+
+### Add the custom webpack config
+
+Here you are going to put the scss loader.
+
+```js
+// webpack.extra.config.js|
+const webpack = require('webpack');
+const pkg = require('./package.json');
+
+module.exports = (config, options) => {
+  config.plugins.push(
+    new webpack.DefinePlugin({
+      APP_VERSION: JSON.stringify(pkg.version),
+    }),
+  );
+
+  const indexScssRule = config.module.rules.findIndex(
+    (a) => String(a.test) === String(/\.(?:scss)$/i),
+  );
+  const scssRule = config.module.rules[indexScssRule];
+
+  const scssModuleRule = {
+    test: /\.module\.scss$/i,
+    use: [
+      {
+        loader: 'style-loader',
+      },
+      {
+        loader: 'css-loader',
+        options: {
+          importLoaders: 1,
+          modules: {
+            mode: 'local',
+          },
+        },
+      },
+      {
+        loader: 'sass-loader',
+      },
+    ],
+  };
+
+  config.module.rules[indexScssRule] = {
+    ...scssRule,
+    exclude: /\.module\.scss$/i,
+  };
+  config.module.rules.splice(indexScssRule + 1, 0, scssModuleRule);
+
+  return config;
+};
+```
+
+And add the config to the builder.
+
+```
+"customWebpackConfig": {
+  "path": "./webpack.extra.config.js"
+},
+```
+
+Type the `.scss` files creating the file
+
+```ts
+declare module '*.module.scss';
+```
+
+Now the project can import the css suffixed with `.module.scss`.
+
+```ts
+import * as styles from './accordion.module.scss';
+```
 
 ## References
 
