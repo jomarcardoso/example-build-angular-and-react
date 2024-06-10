@@ -7,6 +7,9 @@
     "moduleResolution": "node",
     "esModuleInterop": true,
     "emitDecoratorMetadata": true,
+    "paths": {
+      "@lib/angular": ["./libs/angular/src/public-api.ts"]
+    },
     "experimentalDecorators": true,
     "jsx": "react",
     "target": "ES2022",

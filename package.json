@@ -1,12 +1,9 @@
 {
   "scripts": {
     "ng": "ng",
-    "start": "webpack serve --open",
-    "build": "webpack --config webpack.config.js",
-    "start-angular": "ng serve",
-    "build-angular": "ng build",
-    "start-angular-default": "ng serve default",
-    "build-angular-default": "ng build default"
+    "start": "ng serve",
+    "build": "ng build",
+    "build:angular": "ng build lib-angular"
   },
   "dependencies": {
     "@angular/common": "^18.0.2",
@@ -20,11 +17,13 @@
     "react-dom": "^18.3.1",
     "rxjs": "^7.8.1",
     "ts-loader": "^9.5.1",
+    "tslib": "^2.3.0",
     "typescript": "^5.4.5",
     "zone.js": "^0.14.7"
   },
   "devDependencies": {
     "@angular-builders/custom-webpack": "^18.0.0-beta.3",
+    "@angular-devkit/build-angular": "^18.0.3",
     "@angular-devkit/build-webpack": "^0.1800.3",
     "@angular/cli": "^18.0.3",
     "@angular/compiler": "^18.0.2",
@@ -32,9 +31,11 @@
     "css-loader": "^7.1.2",
     "html-loader": "^5.0.0",
     "html-webpack-plugin": "^5.6.0",
+    "ng-packagr": "^18.0.0",
     "sass": "^1.77.4",
     "sass-loader": "^14.2.1",
     "style-loader": "^4.0.0",
+    "typescript": "~5.4.2",
     "webpack": "^5.91.0",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.0.4"

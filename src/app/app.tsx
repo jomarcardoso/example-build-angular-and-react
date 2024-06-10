@@ -1,5 +1,5 @@
 import React from 'react';
-import { Accordion } from '../libs/react/components/accordion';
+import { Accordion } from '../../libs/react/components/accordion';
 
 export function App() {
   return (
