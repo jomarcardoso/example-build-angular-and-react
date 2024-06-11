@@ -1,5 +1,4 @@
-import React, { FC, HTMLProps, useMemo } from "react";
-import { generateClasses } from "../../utils/index";
+import { FC, HTMLProps } from "react";
 import * as styles from "./accordion.module.scss";
 // import "../../scss/components/accordion.scss";
 
@@ -11,13 +10,6 @@ export const Accordion: FC<HTMLProps<HTMLDetailsElement>> = ({
   title,
   ...props
 }) => {
-  const classes = useMemo(() => {
-    return generateClasses({
-      accordion: true,
-      [className]: className,
-    });
-  }, [className]);
-
   return (
     // <details className={classes} {...props}>
     <details className={styles.accordion} {...props}>

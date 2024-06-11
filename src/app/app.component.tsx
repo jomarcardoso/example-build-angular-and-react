@@ -2,7 +2,7 @@ import React from "react";
 import { AfterViewInit, Component, ElementRef, ViewChild } from "@angular/core";
 import { createRoot } from "react-dom/client";
 import { App } from "./app.react";
-import { AccordionComponent } from "../../projects/angular/src/public-api";
+import { AccordionComponent } from "@lib/angular";
 
 @Component({
   selector: "app-root",

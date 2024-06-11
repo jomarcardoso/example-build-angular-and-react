@@ -82,7 +82,7 @@ Further you can improve this build, but I am going to stop here to show you anot
 
 ## Generate the complete build
 
-Run `$ npx -p @angular/cli ng new example-build-angular-and-react-2 --style=scss` to generate an Angular build.
+Run `$ npx -p @angular/cli ng new example-build-angular-and-react --style=scss` to generate an Angular build.
 
 Add `"jsx": "react-jsx",` to `tsconfig.json` compiler options.
 

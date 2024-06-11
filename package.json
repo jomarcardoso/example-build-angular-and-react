@@ -1,5 +1,5 @@
 {
-  "name": "example-build-angular-and-react-2",
+  "name": "app",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -8,6 +8,10 @@
     "build": "run-p build:*",
     "build:app": "ng build",
     "build:angular": "ng build angular",
+    "build:react": "run-s build:react:*",
+    "build:react:mjs": "webpack",
+    "build:react:cjs": "webpack --env type=commonjs",
+    "build:react:assets": "cp projects/react/package.json projects/react/README.md dist/react/",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
@@ -47,6 +51,9 @@
     "npm-run-all": "^4.1.5",
     "sass-loader": "^14.2.1",
     "style-loader": "^4.0.0",
-    "typescript": "~5.4.2"
+    "ts-loader": "^9.5.1",
+    "typescript": "~5.4.2",
+    "webpack-cli": "^5.1.4",
+    "webpack-node-externals": "^3.0.0"
   }
 }

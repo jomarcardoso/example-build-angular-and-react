@@ -1,0 +1,9 @@
+{
+  "name": "@lib/react",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "sideEffects": false
+}
