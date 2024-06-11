@@ -7,7 +7,7 @@
       "@lib/scss": ["./projects/scss"],
       "@lib/angular": ["./projects/angular/src/public-api.ts"],
       "@lib/react": ["./projects/react/src"],
-      "@lib/tools": ["./projects/tools/src"]
+      "@lib/utils": ["./projects/utils"]
     },
     "jsx": "react-jsx",
     "outDir": "./dist/out-tsc",

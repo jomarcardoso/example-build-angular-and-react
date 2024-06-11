@@ -213,6 +213,140 @@ cd dist/my-lib
 npm publish
 ```
 
+### Create React library
+
+```js
+/* webpack.config.js */
+const path = require("path");
+const nodeExternals = require("webpack-node-externals");
+
+const CONFIG_BY_TYPE = {
+  libraryTarget: {
+    commonjs: "commonjs",
+    module: "module",
+  },
+  globalObject: {
+    commonjs: "this",
+    module: "this",
+  },
+  filename: {
+    commonjs: "index.cjs",
+    module: "index.mjs",
+  },
+  externalsPresets: {
+    commonjs: { node: true },
+    module: { node: true },
+  },
+  outputModule: {
+    commonjs: false,
+    module: true,
+  },
+  externals: {
+    commonjs: [
+      nodeExternals({
+        importType: "commonjs",
+      }),
+    ],
+    module: [
+      nodeExternals({
+        importType: "module",
+        allowlist: [/^lodash/],
+      }),
+    ],
+  },
+  library: {
+    commonjs: undefined,
+    module: undefined,
+  },
+  entry: {
+    commonjs: "./src/index.ts",
+    module: "./src/index.ts",
+  },
+  configFile: {
+    commonjs: "tsconfig.json",
+    module: "tsconfig.json",
+  },
+};
+
+const generateConfig = ({ type }) => {
+  const config = {
+    entry: path.resolve(__dirname, "./projects/react/src/index.ts"),
+    mode: "production",
+    devtool: "source-map",
+    output: {
+      filename: CONFIG_BY_TYPE.filename[type],
+      path: path.resolve(__dirname, "./dist/react"),
+      libraryTarget: CONFIG_BY_TYPE.libraryTarget[type],
+      library: CONFIG_BY_TYPE.library[type],
+      globalObject: CONFIG_BY_TYPE.globalObject[type],
+    },
+    experiments: {
+      outputModule: CONFIG_BY_TYPE.outputModule[type],
+    },
+    module: {
+      rules: [
+        {
+          test: /\.(ts|tsx)$/,
+          use: [
+            {
+              loader: "ts-loader",
+              options: {
+                configFile: CONFIG_BY_TYPE.configFile[type],
+              },
+            },
+          ],
+          exclude: /node_modules/,
+        },
+        {
+          test: /\.module\.scss$/i,
+          use: [
+            {
+              loader: "style-loader",
+            },
+            {
+              loader: "css-loader",
+              options: {
+                importLoaders: 1,
+                modules: {
+                  mode: "local",
+                },
+              },
+            },
+            {
+              loader: "sass-loader",
+            },
+          ],
+        },
+    },
+    externalsPresets: CONFIG_BY_TYPE.externalsPresets[type],
+    externals: CONFIG_BY_TYPE.externals[type],
+    resolve: {
+      extensions: [".ts", ".tsx", ".js", ".json"],
+    },
+    plugins: [],
+  };
+
+  return config;
+};
+
+module.exports = ({ type = "module" }) => {
+  return generateConfig({ type });
+};
+```
+
+And the script to build
+
+```json
+{
+  "scripts": {
+    "build:react": "run-s build:react:*",
+    "build:react:mjs": "webpack",
+    "build:react:cjs": "webpack --env type=commonjs",
+    "build:react:assets": "cp projects/react/package.json projects/react/README.md dist/react/"
+  }
+}
+```
+
 ## References
 
 - [uday menon - Building an Angular Application from Scratch without the CLI](https://medium.com/@udayvmenon/building-an-angular-application-from-scratch-without-the-cli-0e5e17b09d11)

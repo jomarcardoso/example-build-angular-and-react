@@ -1,7 +1,7 @@
 const path = require("path");
 const nodeExternals = require("webpack-node-externals");
 // const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
-// const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const CONFIG_BY_TYPE = {
   libraryTarget: {
@@ -101,6 +101,10 @@ const generateConfig = ({ type }) => {
           ],
         },
         // {
+        //   test: /\.module.scss$/i,
+        //   use: [MiniCssExtractPlugin.loader, "css-loader"],
+        // },
+        // {
         //   test: /\.scss$/i,
         //   use: [
         //     "style-loader",
@@ -127,14 +131,17 @@ const generateConfig = ({ type }) => {
     externals: CONFIG_BY_TYPE.externals[type],
     resolve: {
       extensions: [".ts", ".tsx", ".js", ".json"],
+      // alias: {
+      //   "@lib/utils": path.relative(__dirname, "src/projects/utils"),
+      // },
     },
     // optimization: {
     //   splitChunks: {
     //     chunks: 'all',
     //   },
     // },
-    // plugins: [new MiniCssExtractPlugin()],
     plugins: [],
+    // plugins: [new MiniCssExtractPlugin()],
   };
 
   // if (mode === "development") {
