@@ -1,15 +1,15 @@
-const webpack = require('webpack');
-const pkg = require('./package.json');
+const webpack = require("webpack");
+const pkg = require("./package.json");
 
 module.exports = (config, options) => {
   config.plugins.push(
     new webpack.DefinePlugin({
       APP_VERSION: JSON.stringify(pkg.version),
-    }),
+    })
   );
 
   const indexScssRule = config.module.rules.findIndex(
-    (a) => String(a.test) === String(/\.(?:scss)$/i),
+    (a) => String(a.test) === String(/\.(?:scss)$/i)
   );
   const scssRule = config.module.rules[indexScssRule];
 
@@ -17,19 +17,19 @@ module.exports = (config, options) => {
     test: /\.module\.scss$/i,
     use: [
       {
-        loader: 'style-loader',
+        loader: "style-loader",
       },
       {
-        loader: 'css-loader',
+        loader: "css-loader",
         options: {
           importLoaders: 1,
           modules: {
-            mode: 'local',
+            mode: "local",
           },
         },
       },
       {
-        loader: 'sass-loader',
+        loader: "sass-loader",
       },
     ],
   };

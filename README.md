@@ -15,44 +15,44 @@ This build has some limitations and change some aspects how to work in Angular.
 
 ```js
 /* webpack.config.js */
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-  entry: './src/main.ts',
-  mode: 'development',
+  entry: "./src/main.ts",
+  mode: "development",
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'app.bundle.js',
+    path: path.resolve(__dirname, "dist"),
+    filename: "app.bundle.js",
   },
   module: {
     rules: [
       {
         test: /\.tsx?$/,
-        loader: 'ts-loader',
+        loader: "ts-loader",
         exclude: /node_modules/,
       },
       {
         test: /\.html$/,
-        loader: 'html-loader',
+        loader: "html-loader",
       },
       {
         test: /\.scss$/,
-        use: ['style-loader', 'css-loader', 'sass-loader'],
+        use: ["style-loader", "css-loader", "sass-loader"],
       },
       // Add other rules as necessary
     ],
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
+    extensions: [".tsx", ".ts", ".js"],
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './src/index.html',
+      template: "./src/index.html",
     }),
   ],
   devServer: {
-    static: path.join(__dirname, 'dist'),
+    static: path.join(__dirname, "dist"),
     port: 4200,
     open: true,
   },
@@ -82,8 +82,11 @@ Further you can improve this build, but I am going to stop here to show you anot
 
 ## Generate the complete build
 
-- `$ npx -p @angular/cli ng new example-build-angular-and-react-2 --style=scss`
-- `npm run ng generate library angular`
+Run `$ npx -p @angular/cli ng new example-build-angular-and-react-2 --style=scss` to generate an Angular build.
+
+Add `"jsx": "react-jsx",` to `tsconfig.json` compiler options.
+
+## CSS modules
 
 At here you can build Angular and React in your application, but you can not load CSS in the components and use CSS modules. In my opinion and the very css-loader recomendation, is not good to load the CSS by the scripts, so I see the next step optional.
 
@@ -98,38 +101,36 @@ Here you are going to put the scss loader.
 
 ```js
 // webpack.extra.config.js|
-const webpack = require('webpack');
-const pkg = require('./package.json');
+const webpack = require("webpack");
+const pkg = require("./package.json");
 
 module.exports = (config, options) => {
   config.plugins.push(
     new webpack.DefinePlugin({
       APP_VERSION: JSON.stringify(pkg.version),
-    }),
+    })
   );
 
-  const indexScssRule = config.module.rules.findIndex(
-    (a) => String(a.test) === String(/\.(?:scss)$/i),
-  );
+  const indexScssRule = config.module.rules.findIndex((a) => String(a.test) === String(/\.(?:scss)$/i));
   const scssRule = config.module.rules[indexScssRule];
 
   const scssModuleRule = {
     test: /\.module\.scss$/i,
     use: [
       {
-        loader: 'style-loader',
+        loader: "style-loader",
       },
       {
-        loader: 'css-loader',
+        loader: "css-loader",
         options: {
           importLoaders: 1,
           modules: {
-            mode: 'local',
+            mode: "local",
           },
         },
       },
       {
-        loader: 'sass-loader',
+        loader: "sass-loader",
       },
     ],
   };
@@ -155,19 +156,67 @@ And add the config to the builder.
 Type the `.scss` files creating the file
 
 ```ts
-declare module '*.module.scss';
+declare module "*.module.scss";
+```
+
+And add `"declaration.d.ts"` to `tsconfig.app.json` "include". It will look like this:
+
+```json
+/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
+/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/app",
+    "types": []
+  },
+  "files": ["src/main.ts"],
+  "include": ["src/**/*.d.ts", "declaration.d.ts"]
+}
 ```
 
 Now the project can import the css suffixed with `.module.scss`.
 
 ```ts
-import * as styles from './accordion.module.scss';
+import * as styles from "./accordion.module.scss";
+```
+
+## Create libraries
+
+The libraries are not necessary to create the application, because we are making a monotilith. The idea is to split the code by technology to publish on NPM, then our application import this libraries like part of the its code, but we are going to build the libraries separetely to publish.
+
+### Create an Angular library
+
+To create an Angular library, prefer use the command.
+
+- `npm run ng generate library angular`
+
+It will create the files likewise the build in the `angular.json` file.
+
+\*You can change the folder to create the project in the `angular.json` passing the `"newProjectRoot"`
+
+We created a library called "angular", so add the ng command in the `package.json` to build it:
+
+```json
+{
+  "scripts: {
+    "build:angular": "ng build angular",
+  }
+}
+```
+
+An like the [Angular docs](https://v17.angular.io/guide/creating-libraries) says, run:
+
+```
+ng build my-lib
+cd dist/my-lib
+npm publish
 ```
 
 ## References
 
 - [uday menon - Building an Angular Application from Scratch without the CLI](https://medium.com/@udayvmenon/building-an-angular-application-from-scratch-without-the-cli-0e5e17b09d11)
-- [JeB Barabanov - Customizing Angular CLI build — an alternative to ng eject (v2)
-  ](https://medium.com/angular-in-depth/customizing-angular-cli-build-an-alternative-to-ng-eject-v2-c655768b48cc)
-- [Chris Coyier - How to Animate the Details Element
-  ](https://css-tricks.com/how-to-animate-the-details-element/)
+- [JeB Barabanov - Customizing Angular CLI build — an alternative to ng eject (v2)](https://medium.com/angular-in-depth/customizing-angular-cli-build-an-alternative-to-ng-eject-v2-c655768b48cc)
+- [Angular - Creating libraries](https://v17.angular.io/guide/creating-libraries)
+- [ng-packagr](https://github.com/ng-packagr/ng-packagr/blob/main/README.md)
+- [Chris Coyier - How to Animate the Details Element](https://css-tricks.com/how-to-animate-the-details-element/)

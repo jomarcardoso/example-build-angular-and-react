@@ -1,1 +1,6 @@
-@use './libs/scss/index';
+/* You can add global styles to this file, and also import other style files */
+@use "../projects/scss/index";
+
+.container {
+  max-width: 480px;
+}

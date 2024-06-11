@@ -1,5 +1,5 @@
-import React from 'react';
-import { Accordion } from '../libs/react';
+import React from "react";
+import { Accordion } from "../../projects/react/components/accordion";
 
 export function App() {
   return (
