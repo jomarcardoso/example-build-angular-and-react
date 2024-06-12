@@ -131,8 +131,6 @@ const generateConfig = ({ type }) => {
   // }),
   // }
 
-  console.log(config);
-
   return config;
 };
 

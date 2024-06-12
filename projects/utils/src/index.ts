@@ -1,5 +1,5 @@
 export function generateClasses(
-  object: Record<string, boolean | string | undefined | null>,
+  object: Record<string, boolean | string | undefined | null>
 ): string {
   return Object.entries(object)
     .reduce((classes, [className, statement]) => {
@@ -11,3 +11,9 @@ export function generateClasses(
     }, '')
     .trim();
 }
+
+export const kebabCase = (string = '') =>
+  string
+    .replace(/([a-z])([A-Z])/g, '$1-$2')
+    .replace(/[\s_]+/g, '-')
+    .toLowerCase();
