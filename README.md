@@ -2,6 +2,8 @@
 
 An example of an Angular application with some parts in React and also three libs to publish on NPM.
 
+https://jomarcardoso.github.io/example-build-angular-and-react/
+
 ## The simpliest build
 
 React and Angular are only JavaScript or TypeScript in case of Angular with decorators. Both Babel and TypeScript can transpile JSX and the decorator to a fully compatible JavaScript for browsers.
