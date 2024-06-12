@@ -1,4 +1,4 @@
-import { generateClasses } from "../../../utils";
+import { generateClasses } from "@lib/utils";
 import { FC, HTMLProps, useMemo } from "react";
 import * as styles from "./accordion.module.scss";
 // import "../../scss/components/accordion.scss";

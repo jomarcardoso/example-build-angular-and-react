@@ -2,9 +2,10 @@ import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-accordion',
-  templateUrl: './accordion.html',
-  styleUrls: ['../../../scss/components/accordion.scss'],
   standalone: true,
+  imports: [],
+  templateUrl: './accordion.component.html',
+  styleUrls: ['../../../scss/components/accordion.scss'],
 })
 export class AccordionComponent {
   @Input()

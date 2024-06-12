@@ -215,123 +215,26 @@ npm publish
 
 ### Create React library
 
-```js
-/* webpack.config.js */
-const path = require("path");
-const nodeExternals = require("webpack-node-externals");
+As like the Angular library, all configs specific to build the library will be inside its folder.
 
-const CONFIG_BY_TYPE = {
-  libraryTarget: {
-    commonjs: "commonjs",
-    module: "module",
-  },
-  globalObject: {
-    commonjs: "this",
-    module: "this",
-  },
-  filename: {
-    commonjs: "index.cjs",
-    module: "index.mjs",
-  },
-  externalsPresets: {
-    commonjs: { node: true },
-    module: { node: true },
-  },
-  outputModule: {
-    commonjs: false,
-    module: true,
-  },
-  externals: {
-    commonjs: [
-      nodeExternals({
-        importType: "commonjs",
-      }),
-    ],
-    module: [
-      nodeExternals({
-        importType: "module",
-        allowlist: [/^lodash/],
-      }),
-    ],
-  },
-  library: {
-    commonjs: undefined,
-    module: undefined,
-  },
-  entry: {
-    commonjs: "./src/index.ts",
-    module: "./src/index.ts",
-  },
-  configFile: {
-    commonjs: "tsconfig.json",
-    module: "tsconfig.json",
-  },
-};
+Create the webpack config in the library folder
 
-const generateConfig = ({ type }) => {
-  const config = {
-    entry: path.resolve(__dirname, "./projects/react/src/index.ts"),
-    mode: "production",
-    devtool: "source-map",
-    output: {
-      filename: CONFIG_BY_TYPE.filename[type],
-      path: path.resolve(__dirname, "./dist/react"),
-      libraryTarget: CONFIG_BY_TYPE.libraryTarget[type],
-      library: CONFIG_BY_TYPE.library[type],
-      globalObject: CONFIG_BY_TYPE.globalObject[type],
-    },
-    experiments: {
-      outputModule: CONFIG_BY_TYPE.outputModule[type],
-    },
-    module: {
-      rules: [
-        {
-          test: /\.(ts|tsx)$/,
-          use: [
-            {
-              loader: "ts-loader",
-              options: {
-                configFile: CONFIG_BY_TYPE.configFile[type],
-              },
-            },
-          ],
-          exclude: /node_modules/,
-        },
-        {
-          test: /\.module\.scss$/i,
-          use: [
-            {
-              loader: "style-loader",
-            },
-            {
-              loader: "css-loader",
-              options: {
-                importLoaders: 1,
-                modules: {
-                  mode: "local",
-                },
-              },
-            },
-            {
-              loader: "sass-loader",
-            },
-          ],
-        },
-    },
-    externalsPresets: CONFIG_BY_TYPE.externalsPresets[type],
-    externals: CONFIG_BY_TYPE.externals[type],
-    resolve: {
-      extensions: [".ts", ".tsx", ".js", ".json"],
-    },
-    plugins: [],
-  };
+Copy the tsconfig.json from the angular library and edit:
 
-  return config;
-};
-
-module.exports = ({ type = "module" }) => {
-  return generateConfig({ type });
-};
+```json
+{
+  "compilerOptions": {
+    "outDir": "../../dist/react",
+    "baseUrl": ".",
+    "rootDir": "src",
+    // you can use types or include
+    "types": ["../../declaration.d.ts"],
+    // now it is necessary to look the dist code, because the tsc will not compile it together
+    "paths": {
+      "@lib/utils": ["../../dist/utils"]
+    }
+  }
+}
 ```
 
 And the script to build

@@ -1,5 +1,5 @@
 {
-  "name": "@lib/react",
+  "name": "@lib/utils",
   "version": "0.0.1",
   "main": "index.cjs",
   "module": "index.mjs",
@@ -8,14 +8,7 @@
     "build": "run-s build:*",
     "build:mjs": "webpack",
     "build:cjs": "webpack --env type=commonjs",
-    "build:assets": "cp ./package.json ./README.md ../../dist/react/"
-  },
-  "dependencies": {
-    "@lib/utils": "0.0.1"
-  },
-  "peerDependencies": {
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "build:assets": "cp ./package.json ./README.md ../../dist/utils/"
   },
   "exports": {
     "require": "./index.cjs",

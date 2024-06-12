@@ -8,17 +8,9 @@ const CONFIG_BY_TYPE = {
     commonjs: "commonjs",
     module: "module",
   },
-  globalObject: {
-    commonjs: "this",
-    module: "this",
-  },
   filename: {
     commonjs: "index.cjs",
     module: "index.mjs",
-  },
-  externalsPresets: {
-    commonjs: { node: true },
-    module: { node: true },
   },
   outputModule: {
     commonjs: false,
@@ -33,35 +25,22 @@ const CONFIG_BY_TYPE = {
     module: [
       nodeExternals({
         importType: "module",
-        allowlist: [/^lodash/],
+        // allowlist: [/^lodash/],
       }),
     ],
-  },
-  library: {
-    commonjs: undefined,
-    module: undefined,
-  },
-  entry: {
-    commonjs: "./src/index.ts",
-    module: "./src/index.ts",
-  },
-  configFile: {
-    commonjs: "tsconfig.json",
-    module: "tsconfig.json",
   },
 };
 
 const generateConfig = ({ type }) => {
   const config = {
-    entry: path.resolve(__dirname, "./projects/react/src/index.ts"),
+    entry: path.resolve(__dirname, "./src/index.ts"),
     mode: "production",
     devtool: "source-map",
     output: {
       filename: CONFIG_BY_TYPE.filename[type],
-      path: path.resolve(__dirname, "./dist/react"),
+      path: path.resolve(__dirname, "../../dist/react"),
       libraryTarget: CONFIG_BY_TYPE.libraryTarget[type],
-      library: CONFIG_BY_TYPE.library[type],
-      globalObject: CONFIG_BY_TYPE.globalObject[type],
+      globalObject: "this",
     },
     experiments: {
       outputModule: CONFIG_BY_TYPE.outputModule[type],
@@ -74,7 +53,7 @@ const generateConfig = ({ type }) => {
             {
               loader: "ts-loader",
               options: {
-                configFile: CONFIG_BY_TYPE.configFile[type],
+                configFile: path.resolve(__dirname, "tsconfig.lib.prod.json"),
               },
             },
           ],
@@ -127,7 +106,7 @@ const generateConfig = ({ type }) => {
         // },
       ],
     },
-    externalsPresets: CONFIG_BY_TYPE.externalsPresets[type],
+    externalsPresets: { node: true },
     externals: CONFIG_BY_TYPE.externals[type],
     resolve: {
       extensions: [".ts", ".tsx", ".js", ".json"],

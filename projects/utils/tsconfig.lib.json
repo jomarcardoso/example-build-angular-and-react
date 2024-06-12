@@ -3,16 +3,13 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "outDir": "../../dist/react",
+    "outDir": "../../dist/utils",
     "baseUrl": ".",
     "rootDir": "src",
     "declaration": true,
     "declarationMap": true,
     "inlineSources": true,
-    "types": ["../../declaration.d.ts"],
-    "paths": {
-      "@lib/utils": ["../../dist/utils"]
-    }
+    "types": ["../../declaration.d.ts"]
   },
   "exclude": ["**/*.spec.ts"]
 }
